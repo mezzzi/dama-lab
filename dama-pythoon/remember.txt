@@ -1,0 +1,101 @@
+Where You last stopped:
+@@@ DODODO
++ Does eating spree stop, if kingified? think about it. Particularly when the teter corki is engaged in a spree
+@@@ DODODO
++ check that spreePathsAndScores returns identical values as legal_eat_cells in the case when there is no eating spree
++ if the above is the case, then try to find a way of avoiding the redundancy in computing legal_eat_cells twice;
+first when calling legal_moves_and_eats and second when calling spree_paths_and_eats; try to find a way of using
+spree_paths_and_eats only once for both cases
+
+Keep on working with the MindMaster
+------------------------------------
++ you were undecided as to whether to make the MindMaster simply a CompPlayer Object;
+that would probably make things neat and clean
++ you were to add a rule that prioritizes becoming-king(kingification) above cheap
+eats and moves
++ also you were thinking to sort of recursively check on the "eats" to see if the eating
+can keep going or not. If the eating keeps going(turns into an eating-spree), it should 
+get higher priority over cheaper eats.
++ Not just prioritize an eating-spree, but also balance with or check side by side so
+as to minimize a possible and upcoming(retaliating) eating-spree by the enemy. Oh if you
+could but have some elegant algorithm for easily identifying eating-sprees!
++ So with that it means, don't just be always chasing eats, watch out for enemy moves; so 
+as much as possible try to prevent the enemy from making expensive eats(such as
+eating-sprees and free-eats) and kingification moves.
+-------------
+you have worked on the eating spree file inside the mess folder.
+In this file you have edited and understood the getEatPaths()
+function that uses the fake_tree. Now move on to the real 
+getEatPaths() and other relevant functions in that file. And
+then you will have to figure out how to integrate that into
+the mastermind.
+-------------
+
+Thu Dec 1 2016
+===============
+So I need to do a breadth first traversal of the moves using queue.
+The little difficulty is how do I know the depth of the level that I have reached.
+Ok there seems to be a solution; enque the depth level along with the node, this
+depth level can be calculated by giving 0 level to the root node and by giving one
+plus parent level to child nodes.
+So if you want to traverse only upto level n, then you stop when you start dequing an
+element with level n+1
+
+OK ANOTHER PROBLEM IS HOW TO KEEP TRACK OF THE SCORE; THIS IS WHAT I PROPOSE
+like the depth level, store along with each node the total score accumulated since the root
+this score can be calculate in a similar way that the depth level is calculated
+
+dedicate one variable to keep track of the node with highest score
+
+IT WOULD BE COOL TO IF EACH NODE CAN STORE SOME KIND OF REFERENCE TO ITS PARENT,
+SO THAT THE path Leading upto the Node with highest score can easily be calculated
+by tracing back to the root
+
+SO THEN WHAT IS THE SCORING SCHEME AND WHAT ABOUT THE TRADE OFFS OF A GIVEN MOVE
+NOW THIS MAY BE REALLY COOL:
+
+Note that as the depth of the tree increments, the player's turn alternates; that
+means you store the scores of the opponent player as negative scores; since they are trade offs
+
+SIDE NOTE: you would need to make the necessary adjustments when adding the moves of the opponent
+to the tree; for example you might need to set it temporarily as the top player and so on
+
+SO TEMPORARY SCORING SCHEME [Note MYOPIC scores are taken; since the prudent scores
+are the accumulation of the myopic ones]
+
+blocked = 0
+
+teter_move = 1
+king_move = 1
+
+teter_eating_teter = 2 [SPECIAL CASE: you might have to append it as the only child, if teter first rule applies]
+king_eating_teter = 2
+king_eating_king = 4
+
+kingification = 3
+
+
+
+# well this is it man, good luck
+def atLastConfronted(self):
+    nodes, parent, dummy_root_node, queue = [], [], (0, -1, (-1, -1), (-1, -1), -1), Queue()
+    queue.put(0); nodes.append(dummy_root_node); parent.append(-1) # -1 for the root's parent
+    level, max_score, max_node = 1, 0, None
+    # the first run
+    for row in range(self.board.NUM_ROWS):
+        for col in range(self.board.NUM_ROWS):
+            if self.board.isTop(row, col):
+                start_cell = (row, col)
+                advancing_corki_is_teter = 1 if self.board.isTeter(row, col) else 0
+                legal_move_cells, legal_eat_cells = self.movesAndEats(row, col)
+                advances = deepcopy(legal_move_cells)
+                advances.extend(legal_eat_cells)
+                for destn_cell in advances:
+                    index, is_eat = len(nodes), (destn_cell in legal_eat_cells)
+                    score = self.spreeScore(advancing_corki_is_teter, start_cell)
+                    if not is_eat:
+                        if advancing_corki_is_teter and (destn_cell[0] == (self.board.NUM_ROWS - 1)): score = 3
+                    node = (level, score, start_cell, destn_cell, advancing_corki_is_teter)
+                    nodes.append(node); parent.append(0); queue.put(index)
+                    if score > max_score: max_score, max_node = score, node
+    print("Max Score:", max_score, "\nMaximum Node:", max_node)

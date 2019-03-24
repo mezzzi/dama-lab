@@ -1,0 +1,30 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+	<title></title>
+
+	<script type="text/javascript" src="{% static 'dama/js/dama.js' %}"></script>	
+	<link href="{% static 'dama/css/dama.css' %}" rel="stylesheet">
+
+</head>
+
+<body id="boardBody">
+
+	<input id="isStarter" type="hidden" value="{{isStarter}}"/>
+
+    <canvas id="canvasBoard" width="480" height="600">
+        Your browser does not support the HTML5 canvas tag.
+    </canvas>
+        
+    <svg id="svgBoard" width="560" height="560">
+        <rect id="rect1" />        
+    </svg>   
+
+</body>
+
+</html>

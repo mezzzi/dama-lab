@@ -1,0 +1,25 @@
+Where You last stopped:
+
+Keep on working with the MindMaster
+------------------------------------
++ you were undecided as to whether to make the MindMaster simply a CompPlayer Object;
+that would probably make things neat and clean
++ you were to add a rule that prioritizes becoming-king(kingification) above cheap
+eats and moves
++ also you were thinking to sort of recursively check on the "eats" to see if the eating
+can keep going or not. If the eating keeps going(turns into an eating-spree), it should 
+get higher priority over cheaper eats.
++ Not just prioritize an eating-spree, but also balance with or check side by side so
+as to minimize a possible and upcoming(retaliating) eating-spree by the enemy. Oh if you
+could but have some elegant algorithm for easily identifying eating-sprees!
++ So with that it means, don't just be always chasing eats, watch out for enemy moves; so 
+as much as possible try to prevent the enemy from making expensive eats(such as
+eating-sprees and free-eats) and kingfication moves.
+-------------
+you have worked on the eatingspree file inside the mess folder.
+In this file you have edited and understood the getEatPaths()
+function that uses the fake_tree. Now move on to the real 
+getEatPaths() and other relevant functions in that file. And
+then you will have to figure out how to integrate that into
+the mastermind.
+-------------

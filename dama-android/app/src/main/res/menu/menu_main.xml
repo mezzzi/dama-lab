@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.villager.mezi.dama.MainActivity">
+    <item
+        android:id="@+id/restart"
+        android:orderInCategory="100"
+        android:title="Restart"
+        app:showAsAction="never" />
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/egregna"
+            android:title="Egregna"/>
+        <item
+            android:id="@+id/tankegna"
+            android:title="Tankegna"/>
+    </group>
+
+</menu>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$USER_HOME$/PycharmProjects/DataStructureLab/.idea/DataStructureLab.iml" filepath="$USER_HOME$/PycharmProjects/DataStructureLab/.idea/DataStructureLab.iml" />
+      <module fileurl="file://F:/Graph/Mukera/.idea/Mukera.iml" filepath="F:/Graph/Mukera/.idea/Mukera.iml" />
+      <module fileurl="file://$USER_HOME$/Documents/pystf/csci204/.idea/csci204.iml" filepath="$USER_HOME$/Documents/pystf/csci204/.idea/csci204.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../discrete_graph_proj/.idea/discrete_graph_proj.iml" filepath="$PROJECT_DIR$/../discrete_graph_proj/.idea/discrete_graph_proj.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/mess.iml" filepath="$PROJECT_DIR$/.idea/mess.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../misery/.idea/misery.iml" filepath="$PROJECT_DIR$/../misery/.idea/misery.iml" />
+      <module fileurl="file://$USER_HOME$/PycharmProjects/miseryOfMiseries/.idea/miseryOfMiseries.iml" filepath="$USER_HOME$/PycharmProjects/miseryOfMiseries/.idea/miseryOfMiseries.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../pwildstf/number_theory/.idea/number_theory.iml" filepath="$PROJECT_DIR$/../pwildstf/number_theory/.idea/number_theory.iml" />
+      <module fileurl="file://$USER_HOME$/Documents/pystf/pyprac/.idea/pyprac.iml" filepath="$USER_HOME$/Documents/pystf/pyprac/.idea/pyprac.iml" />
+    </modules>
+  </component>
+</project>

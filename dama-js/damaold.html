@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<style>
+    body{
+        display: flex;
+        justify-content: center;
+        background-color: "green";
+    }
+    canvas, svg {
+        border: 1px solid black;
+        margin-top: 50px;
+    }
+</style>    
+<body id="boardBody" >
+
+    
+<svg id="svgBoard" width="560" height="560">
+    <rect id="rect1"></rect>
+</svg>     
+
+
+    
+<script>
+    
+    var useCanvas = false;
+    var board;
+    var cellWidth = 70;
+    var boardWidth = 560;
+    var selectedX = -1;
+    var selectedY = -1;
+    var highlighteds = [];
+   
+    function listenEvent(eventTarget, eventType, eventHandler) {
+        if (eventTarget.addEventListener) {
+            eventTarget.addEventListener(eventType, eventHandler, false);
+        } else if (eventTarget.attachEvent) {
+            eventType = "on" + eventType;
+            eventTarget.attachEvent(eventType, eventHandler);
+        } else {
+            eventTarget["on" + eventType] = eventHandler;
+        }
+    }
+
+    function canvasClickHandler(evt){
+        var r = parseInt((evt.pageY - board.offsetTop) / cellWidth);
+        var c = parseInt((evt.pageX - board.offsetLeft) / cellWidth);
+        selectedX = c * cellWidth;
+        selectedY = r * cellWidth;
+        repaintCanvas();        
+    }
+    
+    window.onload = function(){     
+        var canvasBoard = document.getElementById("canvasBoard");
+        var svgBoard = document.getElementById("svgBoard");
+        var body = document.getElementById("boardBody");
+        if(useCanvas){
+            board = canvasBoard;
+            listenEvent(board, "click", canvasClickHandler);
+            repaintCanvas();     
+            body.removeChild(svgBoard);
+        } else {
+            board = svgBoard;
+            repaintSVG();
+            body.removeChild(canvasBoard);
+        }
+        
+    }
+        
+    function repaintCanvas(){
+        var ctx = board.getContext("2d");
+        var fill = "black";
+        ctx.clearRect(0, 0, boardWidth, boardWidth);
+        for(row=0; row < 8; row++){
+            for(col=0; col < 8; col++){
+                if((row + col) % 2 == 0){
+                    fill = "white";
+                } else {
+                    fill = "black";
+                }
+                ctx.fillStyle = fill;
+                ctx.fillRect(col * cellWidth, row * cellWidth, cellWidth, cellWidth);
+            }
+        }             
+        if(selectedX != -1){
+            ctx.fillStyle = "grey";
+            ctx.fillRect(selectedX, selectedY, cellWidth, cellWidth);
+            selectedX = selectedY = -1;
+        }
+    }   
+    
+    function repaintSVG(){
+        var rectDummy = document.getElementById("rect1");
+        var rect = rectDummy.cloneNode(true);
+        svgBoard.removeChild(rectDummy);
+        for(row=0; row < 8; row++){
+            for(col=0; col < 8; col++){
+                fill = (row + col) % 2 == 0 ? "white" : "black";
+                rect = rect.cloneNode(true);
+                rect.id = "cell"+row+""+col;
+                rect.setAttribute("r", row);
+                rect.setAttribute("c", col);
+                rect.setAttribute("x", col * cellWidth);
+                rect.setAttribute("y", row * cellWidth);    
+                rect.setAttribute("width", cellWidth);
+                rect.setAttribute("height", cellWidth);
+                rect.style.fill = fill;
+                rect.onclick = function(){
+                    this.style.fill = "grey";
+                    for(cellIndex in highlighteds){
+                        cell = highlighteds[cellIndex];
+                        var cellR = parseInt(cell.getAttribute("r"));
+                        var cellC = parseInt(cell.getAttribute("c"));
+                        cell.style.fill = (cellR + cellC) % 2 == 0 ? "white" : "black";
+                    }
+                    highlighteds = [];
+                    highlighteds.push(this);
+                };
+                svgBoard.appendChild(rect);
+            }
+        }           
+        
+    }
+
+    repaintSVG();
+</script>
+
+</body>
+
+</html>
